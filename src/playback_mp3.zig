@@ -1,5 +1,6 @@
 const std = @import("std");
 const zaudio = @import("zaudio");
+const expectEqual = std.testing.expectEqual;
 
 const SAMPLE_RATE = 44100;
 
@@ -30,29 +31,28 @@ pub fn run() !void {
         @panic("Failed to start playback device");
     };
 
-    // add another thread to trace the frames_read:
-    _ = try std.Thread.spawn(.{}, print_audio_thread_debug_in_seconds, .{});
-
-    std.Thread.sleep(20e9);
+    std.Thread.sleep(22e9);
 }
-
-var frames_read: u64 = 0;
 
 fn data_callback(device: *zaudio.Device, pOutput: ?*anyopaque, _: ?*const anyopaque, frame_count: u32) callconv(.c) void {
     const decoder_opt: ?*zaudio.Decoder = @ptrCast(device.getUserData());
 
     if (decoder_opt) |decoder| {
-        decoder.readPCMFrames(pOutput.?, frame_count, &frames_read) catch {
+        var frames_read: u64 = 0;
+
+        decoder.readPCMFrames(pOutput.?, frame_count, &frames_read) catch |err| {
+            std.debug.print("ERROR: {any}", .{err});
             return;
         };
+
+        // Loop the mp3 sample by seeking it from the beginning
+        // if the returned frames_read count is less than the suggested frame_count of the current iteration.
+        if (frames_read < frame_count) {
+            decoder.seekToPCMFrames(0) catch {
+                @panic("cannot seek");
+            };
+        }
     } else {
         return;
-    }
-}
-
-fn print_audio_thread_debug_in_seconds() void {
-    for (0..20) |_| {
-        std.debug.print("frames_read: {}\n", .{frames_read});
-        std.Thread.sleep(1e9);
     }
 }

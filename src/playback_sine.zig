@@ -23,9 +23,6 @@ pub fn run() !void {
         @panic("Failed to start playback device");
     };
 
-    // std.log.info("Press Enter to Quit", .{});
-    // _ = try std.io.getStdIn().reader().readByte();
-
     std.Thread.sleep(5e9);
 }
 
