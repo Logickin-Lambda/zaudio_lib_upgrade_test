@@ -3,8 +3,9 @@ const std = @import("std");
 // all examples:
 const playback_sine_stereo = @import("playback_sine.zig");
 const playback_mp3 = @import("playback_mp3.zig");
-const direct_decoder_access = @import("direct_decoder_access.zig");
 const playback_memory = @import("playback_memory.zig");
+const direct_decoder_access = @import("direct_decoder_access.zig");
+const data_converter_test = @import("data_converter_test.zig");
 
 pub fn main() !void {
     // Prints to stderr, ignoring potential errors.
@@ -21,4 +22,5 @@ pub fn main() !void {
     try playback_mp3.run();
     try playback_memory.run();
     try direct_decoder_access.run();
+    try data_converter_test.run();
 }
