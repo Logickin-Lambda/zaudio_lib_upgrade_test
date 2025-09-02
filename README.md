@@ -8,4 +8,4 @@ Because the test of these component requires audio files, I don't seem to find a
 - direct_decoder_access (demonstrate how to decode and access sample without an engine)
 - data_converter_test (demonstrate how to use the DataConverter to change format)
 
-Simply type `zig build run` should able to compile the projects, the three examples will plays the audio file accordingly, the last two example has no observable result, but validations to ensure the library works correctly.
+Simply type `zig build run` should able to compile the projects, the first three examples will plays the audio file accordingly, the last two example has no observable result, but validations to ensure the library works correctly.
