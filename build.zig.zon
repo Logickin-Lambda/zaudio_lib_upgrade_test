@@ -32,11 +32,10 @@
     // Once all dependencies are fetched, `zig build` no longer requires
     // internet connectivity.
     .dependencies = .{
-        // Please replace this with the dependency by running the command:
-        // zig fetch --save git+https://github.com/zig-gamedev/zaudio
-        // or
-        // zig fetch --save git+https://github.com/Logickin-Lambda/zaudio
-        .zaudio = .{ .path = "../zaudio" },
+        .zaudio = .{
+            .url = "git+https://github.com/Logickin-Lambda/zaudio#0d6d2f74ff7a36e0867df85627dbee86a635f1c9",
+            .hash = "zaudio-0.11.0-dev-_M-91qKyPwCBUUlsevcFcY6RWr1IgSsmYICHkBUObviC",
+        },
     },
     .paths = .{
         "build.zig",
