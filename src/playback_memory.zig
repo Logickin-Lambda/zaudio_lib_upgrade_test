@@ -51,10 +51,12 @@ fn data_callback(device: *zaudio.Device, pOutput: ?*anyopaque, _: ?*const anyopa
     const decoder_opt: ?*zaudio.Decoder = @ptrCast(device.getUserData());
 
     if (decoder_opt) |decoder| {
-        var frames_read: u64 = 0;
 
-        decoder.readPCMFrames(pOutput.?, frame_count, &frames_read) catch |err| {
-            // seems flac works differently comparing with mp3 since it throws an at end error instead of creating an empty frames.
+        // Since the databack function is powered by the c based miniaudio library, we can't pass the zig error within the callback function
+        // thus, we need to explicitly handle the error within the function like so. It can be returning an error log,
+        // or a substitute value, depends on your applications.
+        _ = decoder.readPCMFrames(pOutput.?, frame_count) catch |err| {
+            // flac works differently comparing with mp3 since it throws an at end error instead of creating an empty frames.
             switch (err) {
                 error.AtEnd => decoder.seekToPCMFrames(0) catch {
                     @panic("cannot seek");

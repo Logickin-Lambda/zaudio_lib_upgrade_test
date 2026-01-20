@@ -9,15 +9,15 @@ pub fn run() !void {
 
     // Align the decoder based on the audio configuration of my sawtooth file such that I can verify the file is properly read
     const decoder_config = zaudio.Decoder.Config.init(.unsigned8, 1, 44100);
+    std.debug.print("decoder_config allocator callback: {any}\n", .{decoder_config.allocation_callbacks});
+
     var decoder_saw = try zaudio.Decoder.createFromFile("testing_media/test sawtooth.wav", decoder_config);
     defer decoder_saw.destroy();
 
     // my file should have 256 samples, so a u8 buffer of 256 slot should obtain all the audio information.
     var saw_wave = std.mem.zeroes([256]u8);
     const frame_out: *anyopaque = @ptrCast(&saw_wave);
-    var frames_read: u64 = 0;
-
-    try decoder_saw.readPCMFrames(frame_out, 1000, &frames_read);
+    const frames_read: u64 = try decoder_saw.readPCMFrames(frame_out, 1000);
 
     // Here are the test to ensure the decoder works properly
     // Since the wav file only has 256 samples, it only has 256 instead of 1000 as the frames_count has stated

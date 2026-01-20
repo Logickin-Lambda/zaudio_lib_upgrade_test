@@ -16,7 +16,7 @@ pub fn run() !void {
     var saw_wave = std.mem.zeroes([256]u8);
     const frame_out: *anyopaque = @ptrCast(&saw_wave);
 
-    try decoder_saw.readPCMFrames(frame_out, saw_wave.len, null);
+    _ = try decoder_saw.readPCMFrames(frame_out, saw_wave.len);
 
     // Data Converter take place fom here, and I am going to double the sample rate
     // and turn my sawtooth from mono to stereo, in higher format resolution.

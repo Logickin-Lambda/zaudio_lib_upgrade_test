@@ -33,8 +33,8 @@
     // internet connectivity.
     .dependencies = .{
         .zaudio = .{
-            .url = "git+https://github.com/Logickin-Lambda/zaudio#0d6d2f74ff7a36e0867df85627dbee86a635f1c9",
-            .hash = "zaudio-0.11.0-dev-_M-91qKyPwCBUUlsevcFcY6RWr1IgSsmYICHkBUObviC",
+            .url = "git+https://github.com/zig-gamedev/zaudio#bb93ad665b89e302d4515a36b44cb8e73eaf6766",
+            .hash = "zaudio-0.11.0-dev-_M-91kHvPwAlW8MCRI4XiTbTeihqB8Zspgiuw-6Gqgdz",
         },
     },
     .paths = .{
